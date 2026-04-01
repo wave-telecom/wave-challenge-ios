@@ -19,7 +19,9 @@ final class URLSessionAPIClient: APIClient {
     }
 
     func request<T: Decodable>(_ path: String) async throws -> T {
-        let url = APIConstants.baseURL.appending(path: path)
+        guard let url = URL(string: path, relativeTo: APIConstants.baseURL)?.absoluteURL else {
+            throw APIClientError.invalidResponse
+        }
         var request = URLRequest(url: url)
         request.setValue(APIConstants.authorizationHeader, forHTTPHeaderField: "X-Authorization")
 
