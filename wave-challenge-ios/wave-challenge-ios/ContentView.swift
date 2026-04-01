@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  wave-challenge-ios
-//
-//  Created by Natalia Piva Vilela on 31/03/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
