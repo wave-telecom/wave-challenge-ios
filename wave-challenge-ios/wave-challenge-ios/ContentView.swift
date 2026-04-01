@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel: PokemonListViewModel
+
+    init(viewModel: PokemonListViewModel = AppContainer.shared.makePokemonListViewModel()) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            PokemonListView(viewModel: viewModel)
+                .navigationTitle("Pokedex")
         }
-        .padding()
     }
 }
 
