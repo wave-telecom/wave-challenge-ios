@@ -1,7 +1,9 @@
 import Foundation
+import Combine
 
 @MainActor
 final class PokemonListViewModel: ObservableObject {
+    
     @Published private(set) var state: ScreenState<[PokemonListItem]> = .idle
 
     private let repository: PokemonRepositoryProtocol
