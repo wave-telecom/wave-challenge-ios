@@ -33,9 +33,13 @@ final class URLSessionAPIClient: APIClient {
             guard (200...299).contains(httpResponse.statusCode) else {
                 throw APIClientError.httpError(statusCode: httpResponse.statusCode)
             }
+
+
             return try decoder.decode(T.self, from: data)
         } catch {
             AppLogger.error("API request failed for \(path): \(error.localizedDescription)")
+
+
             throw error
         }
     }

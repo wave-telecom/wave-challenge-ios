@@ -1,14 +1,21 @@
 import SwiftUI
 
+// MARK: - list screen
+
 struct PokemonListView: View {
     @ObservedObject var viewModel: PokemonListViewModel
 
+
     var body: some View {
-        content
-            .task {
-                viewModel.loadIfNeeded()
-            }
+        Group {
+            content
+                .task {
+                    // loads data when view shows up
+                    viewModel.loadIfNeeded()
+                }
+        }
     }
+
 
     @ViewBuilder
     private var content: some View {
@@ -33,8 +40,7 @@ struct PokemonListView: View {
     }
 }
 
-private struct PokemonRowView: View {
-    let item: PokemonListItem
+private struct PokemonRowView: View {    let item: PokemonListItem
 
     var body: some View {
         HStack(spacing: 12) {

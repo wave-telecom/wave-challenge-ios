@@ -13,13 +13,14 @@ final class PokemonRepository: PokemonRepositoryProtocol {
         self.service = service
     }
 
+
     func getPokemonList() async throws -> [PokemonListItem] {
+        // TODO: make limit configurable
         let response = try await service.fetchPokemonList(limit: 151)
         return response.results.map { pokemon in
             PokemonListItem(
-                id: pokemon.name,
+                id: pokemonID(fromPokemonURL: pokemon.url) ?? 0,
                 name: pokemon.name.capitalized,
-                number: pokemonID(fromPokemonURL: pokemon.url) ?? 0,
                 spriteURL: spriteURL(forPokemonURL: pokemon.url)
             )
         }
@@ -51,3 +52,4 @@ final class PokemonRepository: PokemonRepositoryProtocol {
         return URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png")
     }
 }
+

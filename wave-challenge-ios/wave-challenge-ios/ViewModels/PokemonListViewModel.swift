@@ -3,23 +3,20 @@ import Combine
 
 @MainActor
 final class PokemonListViewModel: ObservableObject {
-    
+
     @Published private(set) var state: ScreenState<[PokemonListItem]> = .idle
 
     private let repository: PokemonRepositoryProtocol
     private var currentTask: Task<Void, Never>?
     private var requestID: UUID?
 
+
     init(repository: PokemonRepositoryProtocol) {
         self.repository = repository
     }
 
-    deinit {
-        currentTask?.cancel()
-    }
 
-    func loadIfNeeded() {
-        guard case .idle = state else { return }
+    func retry() {
         load()
     }
 
@@ -49,7 +46,12 @@ final class PokemonListViewModel: ObservableObject {
         }
     }
 
-    func retry() {
+    func loadIfNeeded() {
+        guard case .idle = state else { return }
         load()
+    }
+
+    deinit {
+        currentTask?.cancel()
     }
 }

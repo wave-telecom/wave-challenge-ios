@@ -23,14 +23,11 @@ final class PokemonDetailViewModel: ObservableObject {
         self.repository = repository
     }
 
-    deinit {
-        currentTask?.cancel()
-    }
 
-    func loadIfNeeded() {
-        guard case .idle = state else { return }
+    func retry() {
         load()
     }
+
 
     func load() {
         currentTask?.cancel()
@@ -46,12 +43,17 @@ final class PokemonDetailViewModel: ObservableObject {
                 let details = try await repository.getPokemonDetails(name: name)
                 try Task.checkCancellation()
 
+                // map API model to strings for the view
+                let nm = details.name.capitalized
+                let typesArr = details.types.map(\.type.name)
+                let abArr = details.abilities.map(\.ability.name)
+                let stArr = details.stats.map { "\($0.stat.name): \($0.baseStat)" }
                 let presentation = PokemonDetailPresentation(
-                    name: details.name.capitalized,
+                    name: nm,
                     imageURL: URL(string: details.sprites.frontDefault ?? ""),
-                    typesText: "Types: " + details.types.map(\.type.name).joined(separator: ", "),
-                    abilitiesText: "Abilities: " + details.abilities.map(\.ability.name).joined(separator: ", "),
-                    statsText: "Stats: " + details.stats.map { "\($0.stat.name): \($0.baseStat)" }.joined(separator: ", ")
+                    typesText: "Types: " + typesArr.joined(separator: ", "),
+                    abilitiesText: "Abilities: " + abArr.joined(separator: ", "),
+                    statsText: "Stats: " + stArr.joined(separator: ", ")
                 )
 
                 guard self.requestID == requestID else { return }
@@ -66,7 +68,12 @@ final class PokemonDetailViewModel: ObservableObject {
         }
     }
 
-    func retry() {
+    func loadIfNeeded() {
+        guard case .idle = state else { return }
         load()
+    }
+
+    deinit {
+        currentTask?.cancel()
     }
 }

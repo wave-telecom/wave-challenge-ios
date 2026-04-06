@@ -12,6 +12,7 @@ struct ContentView: View {
             PokemonListView(viewModel: viewModel)
                 .navigationTitle("Pokedex")
         }
+
     }
 }
 

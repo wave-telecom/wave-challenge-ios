@@ -17,6 +17,7 @@ final class AppContainer {
         PokemonListViewModel(repository: pokemonRepository)
     }
 
+
     func makePokemonDetailViewModel(name: String) -> PokemonDetailViewModel {
         PokemonDetailViewModel(name: name, repository: pokemonRepository)
     }
