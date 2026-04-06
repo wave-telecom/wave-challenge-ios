@@ -5,7 +5,7 @@ import XCTest
 final class PokemonListViewModelTests: XCTestCase {
     func testLoadSuccessUpdatesToSuccessState() async {
         let repository = PokemonRepositoryMock()
-        repository.listResult = .success([PokemonListItem(id: "bulbasaur", name: "Bulbasaur", spriteURL: nil)])
+        repository.listResult = .success([PokemonListItem(id: "1", name: "Bulbasaur", spriteURL: nil)])
         let viewModel = PokemonListViewModel(repository: repository)
 
         viewModel.load()

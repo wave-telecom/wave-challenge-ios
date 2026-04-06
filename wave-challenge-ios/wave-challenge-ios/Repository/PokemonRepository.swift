@@ -19,6 +19,7 @@ final class PokemonRepository: PokemonRepositoryProtocol {
             PokemonListItem(
                 id: pokemon.name,
                 name: pokemon.name.capitalized,
+                number: pokemonID(fromPokemonURL: pokemon.url) ?? 0,
                 spriteURL: spriteURL(forPokemonURL: pokemon.url)
             )
         }
@@ -33,14 +34,20 @@ final class PokemonRepository: PokemonRepositoryProtocol {
         return details
     }
 
-    private func spriteURL(forPokemonURL pokemonURL: String) -> URL? {
+    private func pokemonID(fromPokemonURL pokemonURL: String) -> Int? {
         guard
             let idString = pokemonURL.split(separator: "/").last(where: { Int($0) != nil }),
             let id = Int(idString)
         else {
             return nil
         }
+        return id
+    }
 
+    private func spriteURL(forPokemonURL pokemonURL: String) -> URL? {
+        guard let id = pokemonID(fromPokemonURL: pokemonURL) else {
+            return nil
+        }
         return URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(id).png")
     }
 }

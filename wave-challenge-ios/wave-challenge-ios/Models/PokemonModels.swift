@@ -46,11 +46,6 @@ struct AbilityDetails: Decodable {
 struct StatEntry: Decodable {
     let baseStat: Int
     let stat: StatDetails
-
-    enum CodingKeys: String, CodingKey {
-        case baseStat = "base_stat"
-        case stat
-    }
 }
 
 struct StatDetails: Decodable {

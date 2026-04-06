@@ -21,7 +21,7 @@ struct PokemonListView: View {
             }
             .padding()
         case .success(let items):
-            List(items) { item in
+            List(items.reversed()) { item in
                 NavigationLink(value: item.id) {
                     PokemonRowView(item: item)
                 }
@@ -54,9 +54,14 @@ private struct PokemonRowView: View {
             }
             .frame(width: 64, height: 64)
 
-            Text(item.name)
+            Text(item.name).font(.body)
+            Spacer(minLength: 8)
+            Text("#\(item.id)")
                 .font(.body)
+                .foregroundStyle(.secondary)
+                .monospacedDigit()
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private var placeholder: some View {

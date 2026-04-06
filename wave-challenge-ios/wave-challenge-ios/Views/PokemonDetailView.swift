@@ -52,6 +52,8 @@ struct PokemonDetailView: View {
                     Text(details.typesText)
                     Text(details.abilitiesText)
                     Text(details.statsText)
+                        .lineLimit(1)
+                        .truncationMode(.tail)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
