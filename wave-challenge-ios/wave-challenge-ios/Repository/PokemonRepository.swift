@@ -19,7 +19,7 @@ final class PokemonRepository: PokemonRepositoryProtocol {
         let response = try await service.fetchPokemonList(limit: 151)
         return response.results.map { pokemon in
             PokemonListItem(
-                id: pokemonID(fromPokemonURL: pokemon.url) ?? 0,
+                id: pokemonID(fromPokemonURL: pokemon.url)!,
                 name: pokemon.name.capitalized,
                 spriteURL: spriteURL(forPokemonURL: pokemon.url)
             )
@@ -35,14 +35,8 @@ final class PokemonRepository: PokemonRepositoryProtocol {
         return details
     }
 
-    private func pokemonID(fromPokemonURL pokemonURL: String) -> Int? {
-        guard
-            let idString = pokemonURL.split(separator: "/").last(where: { Int($0) != nil }),
-            let id = Int(idString)
-        else {
-            return nil
-        }
-        return id
+    private func pokemonID(fromPokemonURL pokemonURL: String) -> String? {
+        String(pokemonURL.split(separator: "/").last(where: { Int($0) != nil }) ?? "")
     }
 
     private func spriteURL(forPokemonURL pokemonURL: String) -> URL? {

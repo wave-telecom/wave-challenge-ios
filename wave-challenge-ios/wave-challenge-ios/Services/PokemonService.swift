@@ -19,6 +19,6 @@ final class PokemonService: PokemonServiceProtocol {
     func fetchPokemonDetails(name: String) async throws -> PokemonDetails {
         // builds path
         let path = "pokemon/" + name
-        try await apiClient.request(path)
+        return try await apiClient.request(path)
     }
 }
